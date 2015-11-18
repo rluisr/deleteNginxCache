@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: delNginxCache
+Plugin Name: deleteNginxCache
 Plugin URI: https://luispc.com/
-Description: 記事投稿時にNginxのキャッシュを削除する - When you post new article,delete nginx cache.
+Description: 記事投稿時にNginxのキャッシュを削除する - When you post new article or update, delete nginx cache to reflect changes.
 Author: luis
-Version: 0.1
+Version: 1.0.0
 Author URI:http://luispc.com/
 */
 
@@ -14,8 +14,8 @@ add_action('admin_menu', 'admin_nginx_cache');
 function admin_nginx_cache()
 {
     add_menu_page(
-        'test',
-        'test1',
+        'deleteNginxCache', //タブとかの表示名
+        'deleteNginxCache', //ダッシュボードでの表示名
         'administrator',
         'deleteNginxCache',
         'menu_nginx_cache'
@@ -30,11 +30,16 @@ function menu_nginx_cache()
     $dir = get_option('dir_nginx_cache');
     echo <<<EOD
 <div>
-    <h2>deleteNginxCache</h2>
+    <h1>deleteNginxCache</h1>
+    <p>----------------------------------------------------------------------------------------------</p>
     <form action="" method="post">
+        <h2>Where is Cache directory of Nginx?</h2>
+        <p>Example: /var/cache/nginx</p>
         <p><input type="text" name="dir" value="{$dir}" /></p>
         <p><input type="submit" value="Save" /></p>
     </form>
+    <p>----------------------------------------------------------------------------------------------</p>
+    <p>If you have any problems, Please contact me @lu_iskun or github.</p>
 </div>
 EOD;
 
@@ -45,7 +50,7 @@ function delete_nginx_cache()
     $dir = get_option('dir_nginx_cache');
     $fileName = "${dir}/*";
     foreach (glob($fileName) as $a) {
-        unlink($a);
+        @unlink($a);
     }
 }
 
