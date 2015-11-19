@@ -3,7 +3,7 @@
 Plugin Name: deleteNginxCache
 Plugin URI: https://luispc.com/
 Description: シンプルに分かりやすく記事投稿時にNginxのキャッシュを削除する - The simple. When you post new article or update, delete nginx cache to reflect changes.
-Author: luis
+Author: rluisr
 Version: 1.0.0
 Author URI:http://luispc.com/
 */
