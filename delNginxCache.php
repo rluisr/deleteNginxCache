@@ -2,7 +2,7 @@
 /*
 Plugin Name: deleteNginxCache
 Plugin URI: https://luispc.com/
-Description: 記事投稿時にNginxのキャッシュを削除する - When you post new article or update, delete nginx cache to reflect changes.
+Description: シンプルに分かりやすく記事投稿時にNginxのキャッシュを削除する - The simple. When you post new article or update, delete nginx cache to reflect changes.
 Author: luis
 Version: 1.0.0
 Author URI:http://luispc.com/
@@ -13,8 +13,8 @@ require_once 'action_fook.php';
 function admin_nginx_cache()
 {
     add_menu_page(
-        'deleteNginxCache', //タブとかの表示名
-        'deleteNginxCache', //ダッシュボードでの表示名
+        'deleteNginxCache', //Tab
+        'deleteNginxCache', //Dashboard
         'administrator',
         'deleteNginxCache',
         'menu_nginx_cache'
@@ -23,15 +23,17 @@ function admin_nginx_cache()
 
 function menu_nginx_cache()
 {
-    if (isset($_POST['dir'])) {
+    if (isset($_POST['dir']) && check_admin_referer('check_referer')) {
         update_option('dir_nginx_cache', $_POST['dir']);
     }
     $dir = get_option('dir_nginx_cache');
+    $wp_n = wp_nonce_field('check_referer');
     echo <<<EOD
 <div>
     <h1>deleteNginxCache</h1>
     <p>----------------------------------------------------------------------------------------------</p>
     <form action="" method="post">
+    {$wp_n}
         <h2>Where is Cache directory of Nginx?</h2>
         <p>Example: /var/cache/nginx</p>
         <p><input type="text" name="dir" value="{$dir}" /></p>
