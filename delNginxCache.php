@@ -40,7 +40,7 @@ function menu_nginx_cache()
         <p><input type="submit" value="Save" /></p>
     </form>
     <p>----------------------------------------------------------------------------------------------</p>
-    <p>If you have any problems, Please contact me @lu_iskun or github.</p>
+    <p>If you have any problems, Please contact me <a href="https://twitter.com/lu_iskun">@lu_iskun</a> or <a href="https://github.com/rluisr/deleteNginxCache">github</a>.</p>
 </div>
 EOD;
 
@@ -55,9 +55,9 @@ function delete_nginx_cache()
 function rrmdir($dir) {
     foreach(glob($dir . '/*') as $file) {
         if(is_dir($file))
-            rrmdir($file);
+            @rrmdir($file);
         else
-            unlink($file);
+            @unlink($file);
     }
     rmdir($dir);
 }
