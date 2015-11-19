@@ -8,7 +8,13 @@ Version: 1.0.0
 Author URI:http://luispc.com/
 */
 
-add_action('publish_post', 'delete_nginx_cache');
+add_action('post_updated', 'delete_nginx_cache');
+add_action('create_category', 'delete_nginx_cache');
+add_action('trashed_post', 'delete_nginx_cache');
+add_action('untrashed_post', 'delete_nginx_cache');
+add_action('deleted_post', 'delete_nginx_cache');
+add_action('post_updated', 'delete_nginx_cache');
+add_action('publish', 'delete_nginx_cache');
 add_action('admin_menu', 'admin_nginx_cache');
 
 function admin_nginx_cache()
@@ -48,10 +54,16 @@ EOD;
 function delete_nginx_cache()
 {
     $dir = get_option('dir_nginx_cache');
-    $fileName = "${dir}/*";
-    foreach (glob($fileName) as $a) {
-        @unlink($a);
-    }
+    rrmdir($dir);
 }
 
+function rrmdir($dir) {
+    foreach(glob($dir . '/*') as $file) {
+        if(is_dir($file))
+            rrmdir($file);
+        else
+            unlink($file);
+    }
+    rmdir($dir);
+}
 ?>
